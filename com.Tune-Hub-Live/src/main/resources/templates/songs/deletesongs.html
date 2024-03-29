@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Delete Songs</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="/css/deletesongs.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Delete Songs</h1>
+        <!-- Navigation Bar-->
+        <nav class="nav">
+            <a href="/" class="logo">Tune Hub Music</a>
+            <ul class="nav-links">
+                <form th:action="@{/songs/search}" method="get">
+                    <input type="text" placeholder="Search songs..." name="keyword">
+                    <button class="search-button" type="submit">
+                        <i class="bi bi-search"></i> <span>Search</span>
+                    </button>
+                	</form>
+                	<form action="/songs/favorites" method="get">
+			            <button type="submit">View Favorites</button>
+			        </form>
+                	<form action="/songs/createplaylist" method="get">
+	            		<button type="submit">Create Playlist</button>
+	        		</form>
+			        <form action="/songs/viewplaylist" method="get">
+			            <button type="submit">View Playlist</button>
+			        </form>
+                <form action="/logout" method="get">
+                    <button type="submit">Logout</button>
+                </form>
+            </ul>
+        </nav>      
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Artist</th>
+                    <th scope="col">Genre</th>
+                    <th scope="col">Play</th>
+                    <th>Delete</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Dynamic content with Thymeleaf -->
+                <tr th:each="song : ${songslist}">
+                    <td th:text="${song.id}"></td>
+                    <td th:text="${song.name}"></td>
+                    <td th:text="${song.artist}"></td>
+                    <td th:text="${song.genre}"></td>
+                    <td>
+                        <audio controls>
+                            <source th:src="${song.link}" type="audio/mpeg"></source>
+                        </audio>
+                    </td>
+                    <td>
+					    <form th:action="@{/songs/deletesongs(songId=${song.id})}" method="post">
+					        <button type="submit" class="delete-button"><i class="fa fa-trash"></i></button>
+					    </form>
+					</td>		               
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</body>
+<!-- Script to handle favorite and unfavorite actions -->
+	
+	
+</html>
